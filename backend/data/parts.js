@@ -1,6 +1,5 @@
 const parts = [
   {
-    "_id": 1,
     "item_name": "Engine",
     "image": "/images/airpods.jpg",
     "part_number": "S3000",
@@ -17,7 +16,6 @@ const parts = [
     "countInStock": 0
   },
   {
-    "_id": 2,
     "item_name": "Tail Rotor Blade",
     "image": "/images/alexa.jpg",
     "part_number": "S63001",
@@ -34,7 +32,6 @@ const parts = [
     "countInStock": 3
   },
   {
-    "_id": 3,
     "item_name": "Main Rotor Blade",
     "image": "/images/camera.jpg",
     "part_number": "S2000",
@@ -51,7 +48,6 @@ const parts = [
     "countInStock": 5
   },
   {
-    "_id": 4,
     "item_name": "RAGB",
     "image": "/images/mouse.jpg",
     "part_number": "S1000",
@@ -68,7 +64,6 @@ const parts = [
     "countInStock": 3
   },
   {
-    "_id": 5,
     "item_name": "MGB",
     "image": "/images/phone.jpg",
     "part_number": "S0000",
@@ -85,7 +80,6 @@ const parts = [
     "countInStock": 1
   },
   {
-    "_id": 6,
     "item_name": "SARIB",
     "image": "/images/playstation.jpg",
     "part_number": "SM3010000",
@@ -103,4 +97,4 @@ const parts = [
   }
 ]
 
-module.exports = parts
+export default parts

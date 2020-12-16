@@ -1,8 +1,12 @@
-const express = require ('express')
-const donenv = require ('dotenv')
-const parts = require('./data/parts')
+import express from 'express'
+import dotenv from 'dotenv'
+import colors from 'colors'
+import connectDB from './config/db.js'
+import parts from './data/parts.js'
 
-donenv.config()
+dotenv.config()
+
+connectDB()
 
 const app = express()
 
@@ -21,4 +25,4 @@ app.get('/api/part/:id', (req, res) => {
 
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`))
+app.listen(PORT, console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`.magenta.bold))
