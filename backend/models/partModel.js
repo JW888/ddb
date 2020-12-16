@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 const commentsSchema = mongoose.Schema({
-    name:{type: String, required: true},
-    comment:{type: String, required: true},
+    name:{type: String},
+    comment:{type: String},
 
 }, {
     timestamps: true
@@ -21,13 +21,13 @@ const partSchema = mongoose.Schema({
     date_last_amended:{type: Date, required: true},
     rac:{type: String, required: true},
     ui:{type: String, required: true},
-    tsub:{type: String, required: true},
+    tsub:{type: String},
     comments:{type: [commentsSchema]},
-    countInStock:{type: String, required: true},
+    countInStock:{type: Number, required: true},
 }, {
     timestamps: true
 })
 
-const Part = mongoose.model('Part', userSchema)
+const Part = mongoose.model('Part', partSchema)
 
 export default Part

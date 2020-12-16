@@ -12,7 +12,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": "alternate part",
+    "comments": {"name":"jw", "comment":"alternate part"},
     "countInStock": 0
   },
   {
@@ -28,7 +28,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": "this doesn't look like a Tail Rotor Blade", 
+    "comments": {"name":"pk", "comment":"this doesn't look like a Tail Rotor Blade"},
     "countInStock": 3
   },
   {
@@ -44,7 +44,6 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": "",
     "countInStock": 5
   },
   {
@@ -60,7 +59,6 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": "",
     "countInStock": 3
   },
   {
@@ -76,7 +74,6 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": "",
     "countInStock": 1
   },
   {
@@ -92,7 +89,6 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": "",
     "countInStock": 19
   }
 ]
