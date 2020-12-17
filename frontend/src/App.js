@@ -13,7 +13,7 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Route path='/' component={HomeScreen} exact />
-          <Route path='/part/:id' component={PartScreen} />
+          <Route path='/parts/:id' component={PartScreen} />
         </Container>
       </main>
       <Footer />

@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap'
 const Part = ({ part }) => {
   return (
     <Card className='my-3 p-3 rounded'>
-      <Link to={`/part/${part._id}`}>
+      <Link to={`/parts/${part._id}`}>
         <Card.Img src={part.image} variant='top' />
       </Link>
 

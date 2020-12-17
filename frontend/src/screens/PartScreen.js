@@ -9,7 +9,7 @@ const PartScreen = ({ match }) => {
 
   useEffect(() => {
     const fetchPart = async () => {
-      const {data} = await axios.get(`/api/part/${match.params.id}`)
+      const {data} = await axios.get(`/api/parts/${match.params.id}`)
       setPart(data)
     }
     fetchPart()
@@ -61,7 +61,7 @@ const PartScreen = ({ match }) => {
             <ListGroup.Item>
               <Col>Comments:</Col>
                   <Col>
-                    {part.comments}
+                    {part.comments?`${part.comments[0].name} : ${part.comments[0].comment}`:"No Comments"} 
                   </Col>
             </ListGroup.Item>
           </Card>
