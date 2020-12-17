@@ -44,6 +44,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
+    "comments": null,
     "countInStock": 5
   },
   {
@@ -59,6 +60,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
+    "comments": null,
     "countInStock": 3
   },
   {
@@ -74,6 +76,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
+    "comments": null,
     "countInStock": 1
   },
   {
@@ -89,6 +92,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
+    "comments": null,
     "countInStock": 19
   }
 ]
