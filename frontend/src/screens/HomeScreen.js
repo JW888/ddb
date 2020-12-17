@@ -1,32 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector} from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import Part from '../components/Part'
-import axios from 'axios'
+import { listParts } from '../actions/partActions'
 
 
 const HomeScreen = () => {
-  const [parts, setParts] = useState([])
 
+  const dispatch = useDispatch()
+
+  const partList = useSelector(state => state.partList)
+  const { loading, error, parts} = partList
+ 
   useEffect(() => {
-    const fetchParts = async () => {
-      const {data} = await axios.get('/api/parts')
-      setParts(data)
-    }
-    
-    fetchParts()
-  }, [])
+    dispatch(listParts())
+  }, [dispatch])
 
   return (
     <>
       <h1>Search Parts</h1>
-      <Row>
-        {parts.map((part) => (
-          <Col key={part._id} sm={12} md={6} lg={4} xl={3}>
-            <Part part={part} />
-          </Col>
-        ))}
-      </Row>
-    </>
+      {loading ? (<h2>Loading...</h2>) : error ? (<h3>{error}</h3>) : (
+        <Row>
+          {parts.map((part) => (
+            <Col key={part._id} sm={12} md={6} lg={4} xl={3}>
+              <Part part={part} />
+            </Col>
+          ))}
+        </Row>
+      )}
+    </> 
   )
 }
 
