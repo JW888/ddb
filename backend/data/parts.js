@@ -44,7 +44,7 @@ const parts = [
     "rac": "NM",
     "ui": "EA",
     "tsub": null,
-    "comments": null,
+    "comments": [{"name":"am", "comment":"nice"}, {"name":"jw", "comment":"something"}],
     "countInStock": 5
   },
   {

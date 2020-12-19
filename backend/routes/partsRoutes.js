@@ -13,6 +13,7 @@ export default router
 
 router.get('/', asyncHandler (async (req, res) => {
     const parts = await Part.find({})
+    // throw new Error ('Some error')
     res.json(parts)
 }))
 
