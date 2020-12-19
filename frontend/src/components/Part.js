@@ -10,7 +10,7 @@ const Part = ({ part }) => {
       </Link>
 
       <Card.Body>
-        <Link to={`/part/${part._id}`}>
+        <Link to={`/parts/${part._id}`}>
           <Card.Title as='div'>
             <strong>{part.item_name}</strong>
           </Card.Title>

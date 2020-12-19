@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
-import { Row, Col } from 'react-bootstrap'
-import Part from '../components/Part'
+import { Table } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
 import { listParts } from '../actions/partActions'
 
 
@@ -16,17 +18,35 @@ const HomeScreen = () => {
     dispatch(listParts())
   }, [dispatch])
 
+  const history = useHistory();
+
+  const handleRowClick = (id) => {
+    history.push(`/parts/${id}`);
+  }  
+
+
   return (
     <>
       <h1>Search Parts</h1>
-      {loading ? (<h2>Loading...</h2>) : error ? (<h3>{error}</h3>) : (
-        <Row>
-          {parts.map((part) => (
-            <Col key={part._id} sm={12} md={6} lg={4} xl={3}>
-              <Part part={part} />
-            </Col>
-          ))}
-        </Row>
+      {loading ? (<Loader>Loading...</Loader>) : error ? (<Message variant='danger'>{error}</Message>) : (
+        <Table className="table-dark table-hover" size='sm' bordered="true" responsive>
+          <thead>
+            <tr>
+              <th scope="col">Item Name</th>
+              <th scope="col">Part Number</th>
+              <th scope="col">NIIN</th>
+            </tr>
+          </thead>
+          <tbody>
+            {parts.map((part) => (
+                <tr key={part._id} onClick={() => {handleRowClick(part._id)}}>
+                    <td>{part.item_name}</td>
+                    <td>{part.part_number}</td>
+                    <td>{part.niin}</td>
+                </tr>
+            ))}
+          </tbody>
+        </Table>
       )}
     </> 
   )

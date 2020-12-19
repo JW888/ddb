@@ -2,6 +2,21 @@ main {
   min-height: 80vh;
 }
 
+h1 {
+  font-size: 1.7rem;
+  padding: 1.5rem;
+}
+
+h2 {
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+}
+
 h3 {
   padding: 1rem 0;
+}
+.datePicker {
+  width: 100%;
+  border-radius: 5px;
+  text-align: center;
 }
