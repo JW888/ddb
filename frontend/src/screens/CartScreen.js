@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
-import DatePicker from "react-datepicker"
+import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart, removeFromCart } from '../actions/cartActions'
+import { addToCart, removeFromCart, editItemFromCart } from '../actions/cartActions'
 
 import "react-datepicker/dist/react-datepicker.css"
 
 const CartScreen = ({match, location, history}) => {
 
     const partId = match.params.id
-
-    const qty = location.search ? Number(location.search.split('=')[1]) : 1
+    const qty = location.search ? Number(location.search.split('?')[1].split('=')[1]) : 1
+    const dmReg = location.search ? location.search.split('?')[2].split('=')[1] : ""
+    const tail = dmReg.slice(-7)
+    const delLoc = location.search ? location.search.split('?')[3].split('=')[1] : ""
+    const trade = location.search ? location.search.split('?')[4].split('=')[1] : ""
+    const rdd = location.search ? location.search.split('?')[5].split('=')[1] : ""
 
     const dispatch = useDispatch()
 
@@ -23,21 +26,24 @@ const CartScreen = ({match, location, history}) => {
     useEffect(() => {
 
         if (partId) {
-            dispatch(addToCart(partId, qty))
+            dispatch(addToCart(partId, qty, dmReg, tail, delLoc, trade, rdd))
         }
         
-    }, [dispatch, partId, qty])
+    }, [dispatch, partId, qty, dmReg, tail, delLoc, trade, rdd])
 
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
     }
 
-    const checkoutHandler = () => {
-        console.log("checkout")
+    const editCartItemHandler = (cartItem) => {
+        console.log(cartItem)
+        history.push(`/parts/${cartItem.part}`)
+        dispatch(editItemFromCart(cartItem.part, cartItem.qty, cartItem.dmReg, cartItem.delLoc, cartItem.trade, cartItem.rdd))
+        // item.qty = cartItem.qty
     }
 
-    const handleDateChange = () => {
-        console.log("change date")
+    const checkoutHandler = () => {
+        console.log("checkout")
     }
 
     return (
@@ -66,24 +72,21 @@ const CartScreen = ({match, location, history}) => {
                                                 <Row>{`Part Number: ${item.partNumber}`}</Row>
                                                 <Row>{`NIIN: ${item.niin}`}</Row>
                                             </Col>
-                                            <Col md={2} >
-                                                <Row>
-                                                    <Form.Control className="mb-2" size="sm" as='select' value={item.qty} onChange={(e) => dispatch(addToCart(item.part, Number(e.target.value)))}>
-                                                        {
-                                                        [...Array(item.countInStock).keys()].map((x) => (
-                                                        <option key={x+1} value={x+1}>{x+1}</option>
-                                                        ))}
-                                                    </Form.Control>
-                                                </Row>
-                                                <Row>
-                                                    <DatePicker className="datePicker" selected={new Date()} onChange={handleDateChange()} dateFormat='dd/MM/yy'/>
-                                                </Row>
-                                                <Row>
-                                                    <DatePicker className="datePicker" selected={new Date()} onChange={handleDateChange()} dateFormat='dd/MM/yy'/>
-                                                </Row>
+                                            <Col md={6} >
+                                                <Row>Qty:&nbsp;&nbsp;&nbsp;{item.qty}</Row>
+                                                <Row>DM Reg:&nbsp;&nbsp;&nbsp;{item.dmReg}</Row>
+                                                <Row>Tail:&nbsp;&nbsp;&nbsp;{item.tail}</Row>
+                                                <Row>Location:&nbsp;&nbsp;&nbsp;{item.location}</Row>
+                                                <Row>Trade:&nbsp;&nbsp;&nbsp;{item.trade}</Row>
+                                                <Row>RDD:&nbsp;&nbsp;&nbsp;{item.rdd}</Row>
                                             </Col>
                                             <Col className="text-right">
-                                                <Button type='button' className="btn btn-danger btn-sm" onClick={() => (removeFromCartHandler(item.part))}><i className='fas fa-trash'></i> </Button>
+                                                <Row>
+                                                    <Button type='button' className="mt-2 btn btn-info btn-sm" onClick={() => (editCartItemHandler(item))}><i className='fas fa-edit'></i> </Button>
+                                                </Row>
+                                                <Row>
+                                                    <Button type='button' className="mt-5 btn btn-danger btn-sm" onClick={() => (removeFromCartHandler(item.part))}><i className='fas fa-trash'></i> </Button>
+                                                </Row>
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>

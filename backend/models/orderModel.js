@@ -20,8 +20,8 @@ const orderSchema = mongoose.Schema(
           name: { type: String, required: true },
           qtyOrdered: { type: Number, required: true },
           qtyDelivered: { type: Number, required: true, default: 0},
-          qtyOutstanding: { type: Number, required: true, default: "Open" },
-          image: { type: String, required: true },
+          qtyOutstanding: { type: Number, required: true, default: qtyOrdered-qtyDelivered },
+          image: { type: String },
           product: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,

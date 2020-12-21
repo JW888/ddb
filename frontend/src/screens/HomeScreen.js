@@ -21,7 +21,7 @@ const HomeScreen = () => {
   const history = useHistory();
 
   const handleRowClick = (id) => {
-    history.push(`/parts/${id}`);
+    history.push(`/parts/${id}`)
   }  
 
 

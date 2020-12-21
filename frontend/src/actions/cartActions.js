@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
+import { CART_ADD_ITEM, CART_EDIT_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
 
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
+export const addToCart = (id, qty, dmReg, tail, location, trade, rdd) => async (dispatch, getState) => {
     
     const { data } = await axios.get(`/api/parts/${id}`)
     
@@ -15,11 +15,42 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
                     partNumber: data.part_number,
                     niin: data.niin,
                     countInStock: data.countInStock,
-                    qty
+                    qty,
+                    dmReg,
+                    tail,
+                    location,
+                    trade,
+                    rdd,
                 }
             })
 
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems))       
+    
+    
+}
+
+export const editItemFromCart = (id, qty, dmReg, location, trade, rdd) => async (dispatch, getState) => {
+    
+    const { data } = await axios.get(`/api/parts/${id}`)
+    
+    dispatch({
+                type: CART_EDIT_ITEM,
+                payload: {
+                    part: data._id,
+                    name: data.item_name,
+                    image: data.image,
+                    partNumber: data.part_number,
+                    niin: data.niin,
+                    countInStock: data.countInStock,
+                    qty,
+                    dmReg,
+                    location,
+                    trade,
+                    rdd,
+                }
+            })
+
+    localStorage.setItem("editItem", JSON.stringify(getState().cart.editItem))       
     
     
 }
