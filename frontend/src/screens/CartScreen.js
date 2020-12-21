@@ -76,10 +76,10 @@ const CartScreen = ({match, location, history}) => {
                                                     </Form.Control>
                                                 </Row>
                                                 <Row>
-                                                <DatePicker className="datePicker" selected={new Date()} onChange={handleDateChange()} dateFormat='dd/MM/yy'/>
+                                                    <DatePicker className="datePicker" selected={new Date()} onChange={handleDateChange()} dateFormat='dd/MM/yy'/>
                                                 </Row>
                                                 <Row>
-                                                <DatePicker className="datePicker" selected={new Date()} onChange={handleDateChange()} dateFormat='dd/MM/yy'/>
+                                                    <DatePicker className="datePicker" selected={new Date()} onChange={handleDateChange()} dateFormat='dd/MM/yy'/>
                                                 </Row>
                                             </Col>
                                             <Col className="text-right">
