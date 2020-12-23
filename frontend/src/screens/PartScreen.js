@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
+import { useMount } from 'react-use'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
@@ -9,16 +10,27 @@ import DatePicker from "react-datepicker"
 
 const PartScreen = ({ history, match }) => {
 
-  const [qty, setQty] = useState(1)
-  const [dmReg, setDmReg] = useState('DM001-A40-001')
-  const [location, setLocation] = useState('Bay-1')
-  const [trade, setTrade] = useState('AE')
+  const partDetails = useSelector(state => state.partDetails)
+  const partFromState = useSelector(state => state.cart.cartItems.filter((x) => x.part === partDetails.part._id))
+  const { loading, error, part} = partDetails
+  
+  const [qty, setQty] = useState(0)
+  const [dmReg, setDmReg] = useState()
+  const [location, setLocation] = useState()
+  const [trade, setTrade] = useState()
   const [rdd, setRdd] = useState(new Date())
 
+  useMount(() => {
+    if(partFromState.length > 0) {
+      setQty(partFromState[0].qty)
+      setDmReg(partFromState[0].dmReg)
+      setLocation(partFromState[0].location)
+      setTrade(partFromState[0].trade)
+      setRdd(new Date(partFromState[0].rdd))
+    } 
+  }, [])
+      
   const dispatch = useDispatch()
-
-  const partDetails = useSelector(state => state.partDetails)
-  const { loading, error, part} = partDetails
 
   useEffect(() => {
     dispatch (listPartDetails(match.params.id))
@@ -32,7 +44,7 @@ const PartScreen = ({ history, match }) => {
   return (
     <>
       <Link className='btn btn-outline-primary my-3' to='/'>
-        Go Back
+        Back To Parts Search
       </Link>
       {loading ? (<Loader>Loading...</Loader>) : error ? (<Message variant='danger'>{error}</Message>) : (
         <>
@@ -55,7 +67,7 @@ const PartScreen = ({ history, match }) => {
                     <Row>
                       <Col>Qty:</Col>
                       <Col>
-                        <Form.Control as='input' value={qty} onChange={(e) => setQty(e.target.value)}>
+                        <Form.Control as='input' size="sm" value={qty} onChange={(e) => setQty(e.target.value)}>
                         {/* {
                         [...Array(part.countInStock).keys()].map((x) => (
                           <option key={x+1} value={x+1}>{x+1}</option>
@@ -68,7 +80,7 @@ const PartScreen = ({ history, match }) => {
                     <Row>
                       <Col>DM Reg:</Col>
                       <Col>
-                        <Form.Control as='select' value={dmReg} onChange={(e) => setDmReg(e.target.value)}>
+                        <Form.Control as='select' size="sm" value={dmReg} onChange={(e) => setDmReg(e.target.value)}>
                           <option>DM001-A40-001</option>
                           <option>DM001-A40-002</option>
                           <option>DM001-A40-003</option>
@@ -82,7 +94,7 @@ const PartScreen = ({ history, match }) => {
                     <Row>
                       <Col>Location:</Col>
                       <Col>
-                        <Form.Control as='select' value={location} onChange={(e) => setLocation(e.target.value)}>
+                        <Form.Control as='select' size="sm" value={location} onChange={(e) => setLocation(e.target.value)}>
                           <option>Bay-1</option>
                           <option>Bay-2</option>
                           <option>Bay-3</option>
@@ -96,7 +108,7 @@ const PartScreen = ({ history, match }) => {
                     <Row>
                       <Col>Trade:</Col>
                       <Col>
-                        <Form.Control as='select' value={trade} onChange={(e) => setTrade(e.target.value)}>
+                        <Form.Control as='select' size="sm" value={trade} onChange={(e) => setTrade(e.target.value)}>
                           <option>AE</option>
                           <option>AV</option>
                           <option>AST</option>

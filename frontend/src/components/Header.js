@@ -28,6 +28,11 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
+            <LinkContainer to='/cart'>
+                <Nav.Link>
+                  <i className="fas fa-box-open"></i>&nbsp;&nbsp;Demands
+                </Nav.Link>
+              </LinkContainer>
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i>&nbsp;&nbsp;Cart

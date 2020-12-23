@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart, removeFromCart, editItemFromCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -36,14 +36,17 @@ const CartScreen = ({match, location, history}) => {
     }
 
     const editCartItemHandler = (cartItem) => {
-        console.log(cartItem)
         history.push(`/parts/${cartItem.part}`)
-        dispatch(editItemFromCart(cartItem.part, cartItem.qty, cartItem.dmReg, cartItem.delLoc, cartItem.trade, cartItem.rdd))
-        // item.qty = cartItem.qty
     }
 
-    const checkoutHandler = () => {
-        console.log("checkout")
+    const orderHandler = () => {
+
+        console.log(cartItems.length)
+        if (cartItems.length > 0) {
+            return <Message>There are items in the cart</Message>
+        } else {
+            return <Message>No items in the cart</Message>
+        }
     }
 
     return (
@@ -51,6 +54,13 @@ const CartScreen = ({match, location, history}) => {
             <Row>
                 <Col>
                     <h1>Demands Cart</h1>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Link className='btn btn-outline-primary my-3' to='/'>
+                        Back To Parts Search
+                    </Link>
                 </Col>
             </Row>   
             <Row>
@@ -64,15 +74,15 @@ const CartScreen = ({match, location, history}) => {
                                 {cartItems.map(item => (
                                     <ListGroup.Item key={item.part}>
                                         <Row>
-                                            <Col md={2}>
+                                            <Col md={2} sm={2} xs={1} >
                                                 <Image src={item.image} alt={item.name} fluid rounded></Image>
                                             </Col>
-                                            <Col md={3}>
+                                            <Col md={3} sm={3} xs={4}>
                                                 <Row><Link to={`/parts/${item.part}`}>{item.name}</Link></Row>
                                                 <Row>{`Part Number: ${item.partNumber}`}</Row>
                                                 <Row>{`NIIN: ${item.niin}`}</Row>
                                             </Col>
-                                            <Col md={6} >
+                                            <Col md={6} sm={6} xs={4}>
                                                 <Row>Qty:&nbsp;&nbsp;&nbsp;{item.qty}</Row>
                                                 <Row>DM Reg:&nbsp;&nbsp;&nbsp;{item.dmReg}</Row>
                                                 <Row>Tail:&nbsp;&nbsp;&nbsp;{item.tail}</Row>
@@ -102,7 +112,7 @@ const CartScreen = ({match, location, history}) => {
                                 <h2>Order For ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items: </h2>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                <Button type='button' className="btn btn-success" onClick={() => (checkoutHandler)}>Submit Order</Button>
+                                <Button type='button' className="btn btn-success" onClick={orderHandler} disabled={cartItems.length===0}>Submit Order</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
