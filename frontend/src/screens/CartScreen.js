@@ -56,12 +56,6 @@ const CartScreen = ({ match, location, history }) => {
             orderItems: cartItems
         }))
 
-        console.log(cartItems.length)
-        if (cartItems.length > 0) {
-            return <Message>There are items in the cart</Message>
-        } else {
-            return <Message>No items in the cart</Message>
-        }
     }
 
     return (
@@ -126,9 +120,9 @@ const CartScreen = ({ match, location, history }) => {
                             <ListGroup.Item>
                                 <h2>Order For ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items: </h2>
                             </ListGroup.Item>
-                            <ListGroup.item>
+                            {/* <ListGroup.item>
                                 {error && <Message variand='danger'>{error}</Message>}
-                            </ListGroup.item>
+                            </ListGroup.item> */}
                             <ListGroup.Item>
                                 <Button type='button' className="btn btn-success" onClick={orderHandler} disabled={cartItems.length === 0}>Submit Order</Button>
                             </ListGroup.Item>

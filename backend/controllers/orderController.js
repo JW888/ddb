@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
 
 // @desc    Create new order
-// @route   POST /api/orders
+// @route   POST /api/order
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
     const {
@@ -26,7 +26,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get order by ID
-// @route   GET /api/orders/:id
+// @route   GET /api/order/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id).populate(

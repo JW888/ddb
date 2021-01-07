@@ -18,23 +18,21 @@ const orderSchema = mongoose.Schema(
     orderItems: [
       {
         name: { type: String, required: true },
-        qtyOrdered: { type: Number, required: true },
+        qty: { type: Number, required: true },
         qtyDelivered: { type: Number, required: true, default: 0 },
         qtyOutstanding: { type: Number, required: true, default: 0 },
         image: { type: String },
-        product: {
+        dmReg: { type: String, required: true },
+        tail: { type: String, required: true },
+        trade: { type: String, required: true },
+        location: { type: String, required: true },
+        part: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Part',
         },
       },
     ],
-    deliveryLocation: {
-      dmReg: { type: String, required: true },
-      tail: { type: String, required: true },
-      trade: { type: String, required: true },
-      bay: { type: String, required: true },
-    },
     status: { type: String, required: true, default: "Open" },
     requiredDelivery: { type: Date },
     estimatedDelivery: { type: Date },

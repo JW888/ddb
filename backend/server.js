@@ -18,7 +18,7 @@ app.use(express.json())
 
 app.use('/api/parts', partsRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api/orders', orderRoutes)
+app.use('/api/order', orderRoutes)
 
 
 const __dirname = path.resolve()
