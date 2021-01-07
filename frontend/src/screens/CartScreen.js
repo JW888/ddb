@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
+import { createOrder } from '../actions/orderActions'
 
 import "react-datepicker/dist/react-datepicker.css"
 
-const CartScreen = ({match, location, history}) => {
+const CartScreen = ({ match, location, history }) => {
 
     const partId = match.params.id
     const qty = location.search ? Number(location.search.split('?')[1].split('=')[1]) : 1
@@ -19,7 +20,7 @@ const CartScreen = ({match, location, history}) => {
 
     const dispatch = useDispatch()
 
-    const cart = useSelector (state => state.cart)
+    const cart = useSelector(state => state.cart)
 
     const { cartItems } = cart
 
@@ -28,7 +29,7 @@ const CartScreen = ({match, location, history}) => {
         if (partId) {
             dispatch(addToCart(partId, qty, dmReg, tail, delLoc, trade, rdd))
         }
-        
+
     }, [dispatch, partId, qty, dmReg, tail, delLoc, trade, rdd])
 
     const removeFromCartHandler = (id) => {
@@ -39,7 +40,21 @@ const CartScreen = ({match, location, history}) => {
         history.push(`/parts/${cartItem.part}`)
     }
 
+    const orderCreate = useSelector(state => state.orderCreate)
+    const { order, success, error } = orderCreate
+
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`)
+        }
+        // eslint-disable-next-line
+    }, [history, success])
+
     const orderHandler = () => {
+
+        dispatch(createOrder({
+            orderItems: cartItems
+        }))
 
         console.log(cartItems.length)
         if (cartItems.length > 0) {
@@ -62,15 +77,15 @@ const CartScreen = ({match, location, history}) => {
                         Back To Parts Search
                     </Link>
                 </Col>
-            </Row>   
+            </Row>
             <Row>
                 <Col md={8}>
-                
+
                     {cartItems.length === 0 ? (
                         <Message>
                             Your cart is empty <Link to='/'>Go Back</Link>
-                        </Message> ) : (
-                            <ListGroup variant ='flush'>
+                        </Message>) : (
+                            <ListGroup variant='flush'>
                                 {cartItems.map(item => (
                                     <ListGroup.Item key={item.part}>
                                         <Row>
@@ -106,13 +121,16 @@ const CartScreen = ({match, location, history}) => {
                     }
                 </Col>
                 <Col>
-                    <Card> 
+                    <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
                                 <h2>Order For ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items: </h2>
                             </ListGroup.Item>
+                            <ListGroup.item>
+                                {error && <Message variand='danger'>{error}</Message>}
+                            </ListGroup.item>
                             <ListGroup.Item>
-                                <Button type='button' className="btn btn-success" onClick={orderHandler} disabled={cartItems.length===0}>Submit Order</Button>
+                                <Button type='button' className="btn btn-success" onClick={orderHandler} disabled={cartItems.length === 0}>Submit Order</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
