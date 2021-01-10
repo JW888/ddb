@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,11 +6,9 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {
     getOrderDetails,
-    payOrder,
     deliverOrder,
 } from '../actions/orderActions'
 import {
-    ORDER_PAY_RESET,
     ORDER_DELIVER_RESET,
 } from '../constants/orderConstants'
 
@@ -31,18 +28,13 @@ const OrderScreen = ({ match, history }) => {
     const { userInfo } = userLogin
 
     useEffect(() => {
-        if (!userInfo) {
-            history.push('/login')
-        }
-
 
         if (!order || successDeliver || order._id !== orderId) {
-            dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))
         }
 
-    }, [dispatch, orderId, successDeliver, order])
+    }, [dispatch, orderId, successDeliver, order, userInfo, history])
 
 
     const deliverHandler = () => {

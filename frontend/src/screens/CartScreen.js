@@ -41,9 +41,16 @@ const CartScreen = ({ match, location, history }) => {
     }
 
     const orderCreate = useSelector(state => state.orderCreate)
-    const { order, success, error } = orderCreate
+    const { order, success } = orderCreate
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
 
     useEffect(() => {
+        if (!userInfo) {
+            history.push('/login')
+        }
+
         if (success) {
             history.push(`/order/${order._id}`)
         }
@@ -120,9 +127,6 @@ const CartScreen = ({ match, location, history }) => {
                             <ListGroup.Item>
                                 <h2>Order For ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items: </h2>
                             </ListGroup.Item>
-                            {/* <ListGroup.item>
-                                {error && <Message variand='danger'>{error}</Message>}
-                            </ListGroup.item> */}
                             <ListGroup.Item>
                                 <Button type='button' className="btn btn-success" onClick={orderHandler} disabled={cartItems.length === 0}>Submit Order</Button>
                             </ListGroup.Item>
