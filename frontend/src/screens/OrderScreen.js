@@ -46,7 +46,10 @@ const OrderScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
     ) : (
                 <>
-                    <h1>Order {order._id}</h1>
+                    <Link className='btn btn-outline-primary my-3' to='/profile'>
+                        To Demands
+                    </Link>
+                    <h1>Demand {order._id}</h1>
                     <Row>
                         <Col md={8}>
                             <ListGroup variant='flush'>

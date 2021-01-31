@@ -31,6 +31,8 @@ const UserEditScreen = ({ match, history }) => {
     if (successUpdate) {
       dispatch({ type: USER_UPDATE_RESET })
       history.push('/admin/userlist')
+
+      console.log(user)
     } else {
       if (!user.name || user._id !== userId) {
         dispatch(getUserDetails(userId))
@@ -49,7 +51,7 @@ const UserEditScreen = ({ match, history }) => {
 
   return (
     <>
-      <Link to='/admin/userlist' className='btn btn-light my-3'>
+      <Link to='/admin/userlist' className='btn btn-outline-primary my-3'>
         Go Back
       </Link>
       <FormContainer>
