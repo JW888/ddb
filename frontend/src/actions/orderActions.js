@@ -64,7 +64,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
 export const getOrderDetails = (id) => async (dispatch, getState) => {
 
-    console.log(id)
     try {
         dispatch({
             type: ORDER_DETAILS_REQUEST,
