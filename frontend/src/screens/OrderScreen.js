@@ -14,8 +14,7 @@ import {
 
 const OrderScreen = ({ match, history }) => {
     const orderId = match.params.id
-
-
+    
     const dispatch = useDispatch()
 
     const orderDetails = useSelector((state) => state.orderDetails)
