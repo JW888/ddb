@@ -2,6 +2,7 @@ import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
     ORDER_CREATE_FAIL,
+    ORDER_CREATE_RESET,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
@@ -16,7 +17,7 @@ import {
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_RESET,
-    ORDER_CREATE_RESET,
+    
 } from '../constants/orderConstants'
 
 export const orderCreateReducer = (state = {}, action) => {
