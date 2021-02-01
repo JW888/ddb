@@ -29,7 +29,7 @@ const HomeScreen = () => {
     <>
       <h1>Search Parts</h1>
       {loading ? (<Loader>Loading...</Loader>) : error ? (<Message variant='danger'>{error}</Message>) : (
-        <Table className="table-dark table-hover" size='sm' bordered="true" responsive>
+          <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
               <th scope="col">Item Name</th>
