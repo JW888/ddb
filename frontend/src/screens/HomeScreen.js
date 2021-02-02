@@ -6,7 +6,6 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listParts } from '../actions/partActions'
 
-
 const HomeScreen = () => {
 
   const dispatch = useDispatch()
@@ -23,7 +22,6 @@ const HomeScreen = () => {
   const handleRowClick = (id) => {
     history.push(`/parts/${id}`)
   }  
-
 
   return (
     <>
