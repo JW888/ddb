@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card, Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -37,8 +37,15 @@ const OrderScreen = ({ match, history }) => {
 
 
     const deliverHandler = () => {
-        dispatch(deliverOrder(order))
+        let qty_delivered = window.prompt('Enter qty delivered')
+
+        console.log(qty_delivered)
+        // dispatch(deliverOrder(order))
     }
+
+    const handleRowClick = (id) => {
+        history.push(`/orders/${id}`)
+    }  
 
     return loading ? (
         <Loader />
@@ -76,30 +83,32 @@ const OrderScreen = ({ match, history }) => {
                                     {order.orderItems.length === 0 ? (
                                         <Message>Order is empty</Message>
                                     ) : (
-                                            <ListGroup variant='flush'>
-                                                {order.orderItems.map((item, index) => (
-                                                    <ListGroup.Item key={index}>
-                                                        <Row>
-                                                            <Col md={1}>
-                                                                <Image
-                                                                    src={item.image}
-                                                                    alt={item.name}
-                                                                    fluid
-                                                                    rounded
-                                                                />
-                                                            </Col>
-                                                            <Col>
-                                                                <Link to={`/parts/${item.part}`}>
-                                                                    {item.name}
-                                                                </Link>
-                                                            </Col>
-                                                            <Col md={4}>
-                                                                {item.qty}
-                                                            </Col>
-                                                        </Row>
-                                                    </ListGroup.Item>
-                                                ))}
-                                            </ListGroup>
+                                        <Table className="table-dark table-hover" size='sm' bordered="true" responsive>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Order No.</th>
+                                            <th scope="col">Item name</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">DM Reg</th>
+                                            <th scope="col">Tail</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Trade</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {order.orderItems.map((item) => (
+                                            <tr key={item._id} onClick={() => {handleRowClick(item._id)}}>
+                                                <td>{item._id}</td>
+                                                <td>{item.name}</td>
+                                                <td>{item.qty}</td>
+                                                <td>{item.dmReg}</td>
+                                                <td>{item.tail}</td>
+                                                <td>{item.location}</td>
+                                                <td>{item.trade}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </Table>
                                         )}
                                 </ListGroup.Item>
                             </ListGroup>
@@ -113,10 +122,17 @@ const OrderScreen = ({ match, history }) => {
                                         <ListGroup.Item>
                                             <Button
                                                 type='button'
-                                                className='btn btn-block'
+                                                className='btn btn-block btn-success'
                                                 onClick={deliverHandler}
                                             >
-                                                Mark As Delivered
+                                                Full Delivery
+                                            </Button>
+                                            <Button
+                                                type='button'
+                                                className='btn btn-block btn-warning'
+                                                onClick={deliverHandler}
+                                            >
+                                                Partial Delivery
                                             </Button>
                                         </ListGroup.Item>
                                     )}
