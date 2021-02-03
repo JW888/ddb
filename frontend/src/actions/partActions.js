@@ -93,7 +93,7 @@ export const deletePart = (id) => async (dispatch, getState) => {
     }
   }
   
-  export const createPart = () => async (dispatch, getState) => {
+  export const createPart = (part) => async (dispatch, getState) => {
     try {
       dispatch({
         type: PART_CREATE_REQUEST,
@@ -109,7 +109,7 @@ export const deletePart = (id) => async (dispatch, getState) => {
         },
       }
   
-      const { data } = await axios.post(`/api/parts`, {}, config)
+      const { data } = await axios.post(`/api/parts`, part, config)
   
       dispatch({
         type: PART_CREATE_SUCCESS,

@@ -7,9 +7,7 @@ import Paginate from '../components/Paginate'
 import {
   listParts,
   deletePart,
-  createPart,
 } from '../actions/partActions'
-import { PART_CREATE_RESET } from '../constants/partConstants'
 
 const PartListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1
@@ -27,36 +25,22 @@ const PartListScreen = ({ history, match }) => {
     success: successDelete,
   } = partDelete
 
-  const partCreate = useSelector((state) => state.partCreate)
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    part: createdPart,
-  } = partCreate
-
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   useEffect(() => {
-    dispatch({ type: PART_CREATE_RESET })
 
     if (!userInfo || !userInfo.isAdmin) {
       history.push('/login')
     }
 
-    if (successCreate) {
-      history.push(`/admin/part/${createdPart._id}/edit`)
-    } else {
-      dispatch(listParts('', pageNumber))
-    }
+    dispatch(listParts('', pageNumber))
+
   }, [
     dispatch,
     history,
     userInfo,
     successDelete,
-    successCreate,
-    createdPart,
     pageNumber,
   ])
 
@@ -67,11 +51,11 @@ const PartListScreen = ({ history, match }) => {
   }
 
   const createPartHandler = () => {
-    dispatch(createPart())
+    history.push(`/admin/part/create`)
   }
 
   const handleRowClick = (id) => {
-    history.push(`/parts/${id}`)
+    history.push(`/admin/part/${id}/edit`)
   }  
 
   return (
@@ -88,8 +72,6 @@ const PartListScreen = ({ history, match }) => {
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-      {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -109,12 +91,12 @@ const PartListScreen = ({ history, match }) => {
             </thead>
             <tbody>
               {parts.map((part) => (
-                <tr key={part._id} onClick={() => {handleRowClick(part._id)}}>
-                  <td>{part._id}</td>
-                  <td>{part.item_name}</td>
-                  <td>{part.part_number}</td>
-                  <td>{part.niin}</td>
-                  <td>{part.countInStock}</td>
+                <tr key={part._id} >
+                  <td onClick={() => {handleRowClick(part._id)}}>{part._id}</td>
+                  <td onClick={() => {handleRowClick(part._id)}}>{part.item_name}</td>
+                  <td onClick={() => {handleRowClick(part._id)}}>{part.part_number}</td>
+                  <td onClick={() => {handleRowClick(part._id)}}>{part.niin}</td>
+                  <td onClick={() => {handleRowClick(part._id)}}>{part.countInStock}</td>
                   <td>
                     <Button
                       variant='danger'

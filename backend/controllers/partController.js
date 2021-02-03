@@ -47,15 +47,29 @@ const deletePart = asyncHandler(async (req, res) => {
   // @route   POST /api/parts
   // @access  Private/Admin
   const createPart = asyncHandler(async (req, res) => {
+
+    const {
+      itemName,
+      image,
+      countInStock,
+      partNumber,
+    } = req.body
+
     const part = new Part({
-      name: 'Sample name',
-      price: 0,
+      item_name: itemName,
       user: req.user._id,
-      image: '/images/sample.jpg',
-      brand: 'Sample brand',
-      category: 'Sample category',
-      countInStock: 0,
-      numReviews: 0,
+      image: image,
+      part_number:partNumber,
+      niin: '00-000-0000',
+      adrn:'0',
+      variant:0,
+      codified_mrn:'0',
+      group_class:0,
+      date_last_amended: new Date(),
+      rac:'0',
+      ui:'0',
+      tsub:'',
+      countInStock: countInStock,
       description: 'Sample description',
     })
   
@@ -69,11 +83,7 @@ const deletePart = asyncHandler(async (req, res) => {
   const updatePart = asyncHandler(async (req, res) => {
     const {
       name,
-      price,
-      description,
       image,
-      brand,
-      category,
       countInStock,
     } = req.body
   
@@ -81,11 +91,7 @@ const deletePart = asyncHandler(async (req, res) => {
   
     if (part) {
       part.name = name
-      part.price = price
-      part.description = description
       part.image = image
-      part.brand = brand
-      part.category = category
       part.countInStock = countInStock
   
       const updatedPart = await part.save()
