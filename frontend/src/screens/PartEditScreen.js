@@ -18,6 +18,7 @@ const PartEditScreen = ({ match, history }) => {
   const [partNumber, setPartNumber] = useState('')
   const [uploading, setUploading] = useState(false)
 
+
   const dispatch = useDispatch()
 
   const partDetails = useSelector((state) => state.partDetails)
@@ -48,6 +49,7 @@ const PartEditScreen = ({ match, history }) => {
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
+
     const formData = new FormData()
     formData.append('image', file)
     setUploading(true)
@@ -60,6 +62,8 @@ const PartEditScreen = ({ match, history }) => {
       }
 
       const { data } = await axios.post('/api/upload', formData, config)
+
+      console.log(data)
 
       setImage(data)
       setUploading(false)
