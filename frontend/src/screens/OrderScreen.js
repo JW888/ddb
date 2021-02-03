@@ -51,17 +51,28 @@ const OrderScreen = ({ match, history }) => {
         <Loader />
     ) : error ? (
         <Message variant='danger'>{error}</Message>
-    ) : (
+    ) : (   
+            <>
                 <>
                     <Link className='btn btn-outline-primary my-3' to='/profile'>
                         To Demands
                     </Link>
-                    <h1>Demand {order._id}</h1>
                     <Row>
-                        <Col md={8}>
+                        <Col md={6} sm={6} xs={6}>
+                            <h1>Delivery Details</h1>
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
-                                    <h2>Delivery Details</h2>
+                                    
+                                    {order.isDelivered ? (
+                                    <h4 class="text-success">Status: {order.status}</h4>
+
+                                    ) : (
+                                    <h4 class="text-danger">{order.status}</h4>
+                                    )}
+                                   
+                                    <p>
+                                        <strong>Demand No.: </strong> {order._id}
+                                    </p>
                                     <p>
                                         <strong>Name: </strong> {order.user.name}
                                     </p>
@@ -69,30 +80,37 @@ const OrderScreen = ({ match, history }) => {
                                         <strong>Email: </strong>{' '}
                                         <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
                                     </p>
-                                    {order.isDelivered ? (
-                                        <Message variant='success'>
-                                            Delivered on {order.deliveredAt}
-                                        </Message>
-                                    ) : (
-                                            <Message variant='danger'>Not Delivered</Message>
-                                        )}
+                                    
                                 </ListGroup.Item>
-
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                </>
+                <br>
+                </br>
+                <>
+                    <Row>
+                        <Col>
+                            <h1>Demand Items</h1>
+                            <ListGroup variant='flush'>
                                 <ListGroup.Item>
-                                    <h2>Ordered Items</h2>
+                                    
                                     {order.orderItems.length === 0 ? (
                                         <Message>Order is empty</Message>
                                     ) : (
-                                        <Table className="table-dark table-hover" size='sm' bordered="true" responsive>
+                                        <Table className="table-dark table-hover" striped bordered responsive>
                                         <thead>
                                         <tr>
                                             <th scope="col">Order No.</th>
                                             <th scope="col">Item name</th>
-                                            <th scope="col">Qty</th>
                                             <th scope="col">DM Reg</th>
                                             <th scope="col">Tail</th>
                                             <th scope="col">Location</th>
                                             <th scope="col">Trade</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">Del</th>
+                                            <th scope="col">Out</th>
+                                            <th scope="col">Delivery</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -100,11 +118,37 @@ const OrderScreen = ({ match, history }) => {
                                             <tr key={item._id} onClick={() => {handleRowClick(item._id)}}>
                                                 <td>{item._id}</td>
                                                 <td>{item.name}</td>
-                                                <td>{item.qty}</td>
                                                 <td>{item.dmReg}</td>
                                                 <td>{item.tail}</td>
                                                 <td>{item.location}</td>
                                                 <td>{item.trade}</td>
+                                                <td>{item.qty}</td>
+                                                <td>{item.qtyDelivered}</td>
+                                                <td>{item.qtyOutstanding}</td>
+                                                <td>
+                                    
+                                                    <Button 
+                                                    type='button'
+                                                    className='btn-sm btn-success mr-2'
+                                                    onClick={deliverHandler}
+                                                    >
+                                                        Full
+                                                    </Button>
+                                                    <Button
+                                                    type='button'
+                                                    className='btn-sm btn-warning mr-2'
+                                                    onClick={deliverHandler}
+                                                    >
+                                                        Part
+                                                    </Button>
+                                                    <Button
+                                                    type='button'
+                                                    className='btn-sm btn-danger'
+                                                    onClick={deliverHandler}
+                                                    >
+                                                        None
+                                                    </Button>
+                                                </td>
                                             </tr>
                                         ))}
                                         </tbody>
@@ -113,34 +157,10 @@ const OrderScreen = ({ match, history }) => {
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>
-                        <Col md={4}>
-                            <Card>
-                                {loadingDeliver && <Loader />}
-                                {userInfo &&
-                                    userInfo.isAdmin &&
-                                    !order.isDelivered && (
-                                        <ListGroup.Item>
-                                            <Button
-                                                type='button'
-                                                className='btn btn-block btn-success'
-                                                onClick={deliverHandler}
-                                            >
-                                                Full Delivery
-                                            </Button>
-                                            <Button
-                                                type='button'
-                                                className='btn btn-block btn-warning'
-                                                onClick={deliverHandler}
-                                            >
-                                                Partial Delivery
-                                            </Button>
-                                        </ListGroup.Item>
-                                    )}
-                            </Card>
-                        </Col>
                     </Row>
                 </>
-            )
+            </>
+        )
 }
 
 export default OrderScreen
