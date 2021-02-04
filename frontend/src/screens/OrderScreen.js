@@ -35,7 +35,6 @@ const OrderScreen = ({ match, history }) => {
 
     }, [dispatch, orderId, successDeliver, order, userInfo, history])
 
-
     const deliverHandler = () => {
         let qty_delivered = window.prompt('Enter qty delivered')
 
