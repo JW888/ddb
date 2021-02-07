@@ -7,15 +7,21 @@ import Part from '../models/partModel.js'
 // @route GET /api/parts
 // @access Public
 const getParts = asyncHandler(async(req, res) => {
-    const keyword = req.query.keyword ? {
-      item_name: {
-        $regex: req.query.keyword,
-        $options: 'i'
-      }
-    } : {}
 
-    const parts = await Part.find({...keyword})
-    res.json(parts)
+  const pageSize = 2
+
+  const page = Number(req.query.pageNumber) || 1
+
+  const keyword = req.query.keyword ? {
+    item_name: {
+      $regex: req.query.keyword,
+      $options: 'i'
+    }
+  } : {}
+
+  const count = await Part.countDocuments({ ... keyword})
+  const parts = await Part.find({...keyword}).limit(pageSize).skip(pageSize * (page - 1))
+  res.json({ parts, page, pages: Math.ceil(count/pageSize) })
 })
 
 

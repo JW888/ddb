@@ -35,11 +35,14 @@ const App = () => {
           <Route path='/myorders' component={MyOrdersScreen} />
           <Route path='/admin/userlist' component={UserListScreen} />
           <Route path='/admin/user/:id/edit' component={UserEditScreen} />
-          <Route path='/admin/partlist' component={PartListScreen} />
+          <Route path='/admin/partlist' component={PartListScreen} exact/>
+          <Route path='/admin/partlist/:pageNumber' component={PartListScreen} exact/>
           <Route path='/admin/part/create' component={PartCreateScreen} />
           <Route path='/admin/part/:id/edit' component={PartEditScreen} />
           <Route path='/admin/orderlist' component={OrderListScreen} />
-          <Route path='/search/:keyword' component={HomeScreen} />
+          <Route path='/search/:keyword' component={HomeScreen} exact/>
+          <Route path='/page/:pageNumber' component={HomeScreen} exact/>
+          <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact/>
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

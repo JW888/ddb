@@ -26,7 +26,7 @@ export const partListReducer = (state = { parts: [] }, action) => {
         case PART_LIST_REQUEST:
             return { loading: true, parts: [] }
         case PART_LIST_SUCCESS:
-            return { loading: false, parts: action.payload }
+            return { loading: false, parts: action.payload.parts, pages: action.payload.pages, page:action.payload.page }
         case PART_LIST_FAIL:
             return { loading: false, error: action.payload}
         default:

@@ -19,11 +19,11 @@ import {
 
 import { logout } from './userActions'
 
-export const listParts = (keyword = '') => async (dispatch) => {
+export const listParts = (keyword = '', pageNumber = '') => async (dispatch) => {
     try {
         dispatch({type: PART_LIST_REQUEST })
 
-        const { data } = await axios.get(`/api/parts?keyword=${keyword}`)
+        const { data } = await axios.get(`/api/parts?keyword=${keyword}&pageNumber=${pageNumber}`)
 
         dispatch({
             type: PART_LIST_SUCCESS,
