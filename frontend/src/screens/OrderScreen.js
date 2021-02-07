@@ -40,6 +40,9 @@ const OrderScreen = ({ match, history }) => {
         return order.orderItems.reduce((qtyTot, orderItem) => qtyTot + orderItem.qtyOutstanding, 0)
     }
     
+    const calcQty = () => {
+        return order.orderItems.reduce((qtyTot, orderItem) => qtyTot + orderItem.qty, 0)
+    }
     
     const deliverPartialHandler = (item) => {
         let qtyDelivered = parseInt(window.prompt('Enter additional qty delivered'))
@@ -50,7 +53,7 @@ const OrderScreen = ({ match, history }) => {
 
             if (qtyDelivered > item.qtyOutstanding){
                 item.qtyOutstanding = 0
-                item.qtyDelivered = item.qtyDelivered + qtyDelivered
+                item.qtyDelivered = item.qty
             } else {
                 item.qtyOutstanding = item.qty - qtyDelivered
                 item.qtyDelivered =item.qtyDelivered + qtyDelivered
@@ -58,25 +61,49 @@ const OrderScreen = ({ match, history }) => {
 
         }
 
-        dispatch(deliverOrder(order, item))
+        let status
+        if (calcQtyOutstanding() === 0) {
+            status = "Full"
+        } else if ( calcQtyOutstanding() === calcQty() ) {
+            status = "Open"
+        } else {
+            status = "Partial"
+        }
+
+        dispatch(deliverOrder(order, item, status))
     }
 
     const deliverFullHandler = (item) => {
         item.qtyOutstanding = 0
         item.qtyDelivered = item.qty
-        
-        if (calcQtyOutstanding === 0) {
-            order.status = "Full"
+
+        let status
+        if (calcQtyOutstanding() === 0) {
+            status = "Full"
+        } else if ( calcQtyOutstanding() === calcQty() ) {
+            status = "Open"
+        } else {
+            status = "Partial"
         }
-        
-        dispatch(deliverOrder(order, item))
+
+        dispatch(deliverOrder(order, item, status))
     }
 
     const deliverResetHandler = (item) => {
 
         item.qtyOutstanding = item.qty
         item.qtyDelivered = 0
-        dispatch(deliverOrder(order, item))
+
+        let status
+        if (calcQtyOutstanding() === 0) {
+            status = "Full"
+        } else if ( calcQtyOutstanding() === calcQty() ) {
+            status = "Open"
+        } else {
+            status = "Partial"
+        }
+
+        dispatch(deliverOrder(order, item, status))
     }
 
     return loading ? (
