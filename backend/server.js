@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import xss from 'xss-clean'
 import rateLimit from 'express-rate-limit'
 import hpp from 'hpp'
+import cors from 'cors'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
@@ -31,6 +32,7 @@ app.use(mongoSanitize())
 app.use(helmet())
 app.use(xss())
 app.use(hpp())
+app.use(cors())
 
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, 
@@ -44,6 +46,9 @@ app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/upload', uploadRoutes)
 
+var __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/frontend/build')))
   app.get('*', (req, res) =>
@@ -54,9 +59,6 @@ if (process.env.NODE_ENV === 'production') {
     res.send('API is running....')
   })
 }
-
-const __dirname = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFound)
 app.use(errorHandler)
