@@ -7,7 +7,14 @@ import Part from '../models/partModel.js'
 // @route GET /api/parts
 // @access Public
 const getParts = asyncHandler(async(req, res) => {
-    const parts = await Part.find({})
+    const keyword = req.query.keyword ? {
+      item_name: {
+        $regex: req.query.keyword,
+        $options: 'i'
+      }
+    } : {}
+
+    const parts = await Part.find({...keyword})
     res.json(parts)
 })
 

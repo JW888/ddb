@@ -6,7 +6,9 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listParts } from '../actions/partActions'
 
-const HomeScreen = () => {
+const HomeScreen = ( {match} ) => {
+
+  const keyword = match.params.keyword
 
   const dispatch = useDispatch()
 
@@ -14,8 +16,8 @@ const HomeScreen = () => {
   const { loading, error, parts} = partList
  
   useEffect(() => {
-    dispatch(listParts())
-  }, [dispatch])
+    dispatch(listParts(keyword))
+  }, [dispatch, keyword])
 
   const history = useHistory();
 
