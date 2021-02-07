@@ -43,6 +43,18 @@ const OrderScreen = ({ match, history }) => {
     const calcQty = () => {
         return order.orderItems.reduce((qtyTot, orderItem) => qtyTot + orderItem.qty, 0)
     }
+
+    const getStatus = () => {
+
+        if (calcQtyOutstanding() === 0) {
+            return "Full"
+        } else if ( calcQtyOutstanding() === calcQty() ) {
+            return "Open"
+        } else {
+            return "Partial"
+        }
+
+    }
     
     const deliverPartialHandler = (item) => {
         let qtyDelivered = parseInt(window.prompt('Enter additional qty delivered'))
@@ -61,49 +73,19 @@ const OrderScreen = ({ match, history }) => {
 
         }
 
-        let status
-        if (calcQtyOutstanding() === 0) {
-            status = "Full"
-        } else if ( calcQtyOutstanding() === calcQty() ) {
-            status = "Open"
-        } else {
-            status = "Partial"
-        }
-
-        dispatch(deliverOrder(order, item, status))
+        dispatch(deliverOrder(order, item, getStatus()))
     }
 
     const deliverFullHandler = (item) => {
         item.qtyOutstanding = 0
         item.qtyDelivered = item.qty
-
-        let status
-        if (calcQtyOutstanding() === 0) {
-            status = "Full"
-        } else if ( calcQtyOutstanding() === calcQty() ) {
-            status = "Open"
-        } else {
-            status = "Partial"
-        }
-
-        dispatch(deliverOrder(order, item, status))
+        dispatch(deliverOrder(order, item, getStatus()))
     }
 
     const deliverResetHandler = (item) => {
-
         item.qtyOutstanding = item.qty
         item.qtyDelivered = 0
-
-        let status
-        if (calcQtyOutstanding() === 0) {
-            status = "Full"
-        } else if ( calcQtyOutstanding() === calcQty() ) {
-            status = "Open"
-        } else {
-            status = "Partial"
-        }
-
-        dispatch(deliverOrder(order, item, status))
+        dispatch(deliverOrder(order, item, getStatus()))
     }
 
     return loading ? (
@@ -122,12 +104,14 @@ const OrderScreen = ({ match, history }) => {
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
                                     
-                                    {order.isDelivered ? (
-                                    <h4 className="text-success">Status: {order.status}</h4>
+                                    {order.status === "Full" ? (
+                                    <h4 className="text-success">{order.status}</h4>
 
+                                    ) : order.status === "Partial" ? (
+                                    <h4 className="text-warning">{order.status}</h4>
                                     ) : (
-                                    <h4 className="text-danger">{order.status}</h4>
-                                    )}
+                                        <h4 className="text-danger">{order.status}</h4>
+                                        )}
                                    
                                     <p>
                                         <strong>Demand No.: </strong> {order._id}
@@ -152,11 +136,13 @@ const OrderScreen = ({ match, history }) => {
                         <Col>
                             <h1>Demand Items</h1>
                             <ListGroup variant='flush'>
+                            {loadingDeliver && <Loader />}
                                 <ListGroup.Item>
                                     
                                     {order.orderItems.length === 0 ? (
                                         <Message>Order is empty</Message>
                                     ) : (
+                                        
                                         <Table className="table-dark table-hover" striped bordered responsive>
                                         <thead>
                                         <tr>

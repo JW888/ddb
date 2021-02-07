@@ -50,12 +50,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
     let orderItem = req.body[0]
     let status = req.body[1]
-
-    console.log(orderItem)
-    console.log(status)
-
     
-
     if (order) {
 
         order.orderItems.find(item => item._id == orderItem._id).qtyDelivered = orderItem.qtyDelivered
