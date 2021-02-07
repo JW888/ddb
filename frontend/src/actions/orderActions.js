@@ -101,7 +101,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
 }
 
 
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const deliverOrder = (order, item) => async (dispatch, getState) => {
     try {
         dispatch({
             type: ORDER_DELIVER_REQUEST,
@@ -119,7 +119,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 
         const { data } = await axios.put(
             `/api/orders/${order._id}/deliver`,
-            {},
+            item,
             config
         )
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card, Button, Table } from 'react-bootstrap'
+import { Row, Col, ListGroup, Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -35,16 +35,52 @@ const OrderScreen = ({ match, history }) => {
 
     }, [dispatch, orderId, successDeliver, order, userInfo, history])
 
-    const deliverHandler = () => {
-        let qty_delivered = window.prompt('Enter qty delivered')
 
-        console.log(qty_delivered)
-        // dispatch(deliverOrder(order))
+    const calcQtyOutstanding = () => {
+        return order.orderItems.reduce((qtyTot, orderItem) => qtyTot + orderItem.qtyOutstanding, 0)
+    }
+    
+    
+    const deliverPartialHandler = (item) => {
+        let qtyDelivered = parseInt(window.prompt('Enter additional qty delivered'))
+
+        if (qtyDelivered === null) {
+            return
+        } else {
+
+            if (qtyDelivered > item.qtyOutstanding){
+                item.qtyOutstanding = 0
+                item.qtyDelivered = item.qtyDelivered + qtyDelivered
+            } else {
+                item.qtyOutstanding = item.qty - qtyDelivered
+                item.qtyDelivered =item.qtyDelivered + qtyDelivered
+            }
+
+        }
+
+        dispatch(deliverOrder(order, item))
     }
 
-    const handleRowClick = (id) => {
-        history.push(`/orders/${id}`)
-    }  
+    const deliverFullHandler = (item) => {
+        item.qtyOutstanding = 0
+        item.qtyDelivered = item.qty
+        
+        if (calcQtyOutstanding === 0) {
+            order.status = "Full"
+        }
+
+        // console.log(order)
+        // console.log(calcQtyOrdered())
+        // console.log(calcQtyOutstanding())
+        dispatch(deliverOrder(order, item))
+    }
+
+    const deliverResetHandler = (item) => {
+
+        item.qtyOutstanding = item.qty
+        item.qtyDelivered = 0
+        dispatch(deliverOrder(order, item))
+    }
 
     return loading ? (
         <Loader />
@@ -63,10 +99,10 @@ const OrderScreen = ({ match, history }) => {
                                 <ListGroup.Item>
                                     
                                     {order.isDelivered ? (
-                                    <h4 class="text-success">Status: {order.status}</h4>
+                                    <h4 className="text-success">Status: {order.status}</h4>
 
                                     ) : (
-                                    <h4 class="text-danger">{order.status}</h4>
+                                    <h4 className="text-danger">{order.status}</h4>
                                     )}
                                    
                                     <p>
@@ -107,14 +143,16 @@ const OrderScreen = ({ match, history }) => {
                                             <th scope="col">Location</th>
                                             <th scope="col">Trade</th>
                                             <th scope="col">Qty</th>
-                                            <th scope="col">Del</th>
                                             <th scope="col">Out</th>
-                                            <th scope="col">Delivery</th>
+                                            <th scope="col">Del</th>
+                                            {userInfo && userInfo.isAdmin && (
+                                                <th scope="col">Delivery</th>
+                                            )}
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {order.orderItems.map((item) => (
-                                            <tr key={item._id} onClick={() => {handleRowClick(item._id)}}>
+                                            <tr key={item._id} >
                                                 <td>{item._id}</td>
                                                 <td>{item.name}</td>
                                                 <td>{item.dmReg}</td>
@@ -122,32 +160,35 @@ const OrderScreen = ({ match, history }) => {
                                                 <td>{item.location}</td>
                                                 <td>{item.trade}</td>
                                                 <td>{item.qty}</td>
-                                                <td>{item.qtyDelivered}</td>
                                                 <td>{item.qtyOutstanding}</td>
-                                                <td>
-                                    
-                                                    <Button 
-                                                    type='button'
-                                                    className='btn-sm btn-success mr-2'
-                                                    onClick={deliverHandler}
-                                                    >
-                                                        Full
-                                                    </Button>
-                                                    <Button
-                                                    type='button'
-                                                    className='btn-sm btn-warning mr-2'
-                                                    onClick={deliverHandler}
-                                                    >
-                                                        Part
-                                                    </Button>
-                                                    <Button
-                                                    type='button'
-                                                    className='btn-sm btn-danger'
-                                                    onClick={deliverHandler}
-                                                    >
-                                                        None
-                                                    </Button>
-                                                </td>
+                                                <td>{item.qtyDelivered}</td>
+                                                {userInfo && userInfo.isAdmin && (
+                                                    <td>
+                                        
+                                                        <Button 
+                                                        type='button'
+                                                        className='btn-sm btn-success mr-2'
+                                                        onClick={() => {deliverFullHandler(item)}} 
+                                                        
+                                                        >
+                                                            Full
+                                                        </Button>
+                                                        <Button
+                                                        type='button'
+                                                        className='btn-sm btn-warning mr-2'
+                                                        onClick={() => deliverPartialHandler(item)}
+                                                        >
+                                                            Part
+                                                        </Button>
+                                                        <Button
+                                                        type='button'
+                                                        className='btn-sm btn-danger'
+                                                        onClick={() => deliverResetHandler(item)}
+                                                        >
+                                                            None
+                                                        </Button>
+                                                    </td>
+                                                )}
                                             </tr>
                                         ))}
                                         </tbody>

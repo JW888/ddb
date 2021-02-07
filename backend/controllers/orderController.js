@@ -48,9 +48,16 @@ const getOrderById = asyncHandler(async (req, res) => {
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id)
 
+    console.log(req.body)
+
     if (order) {
-        order.isDelivered = true
-        order.deliveredAt = Date.now()
+
+        order.orderItems.find(item => item._id == req.body._id).qtyDelivered = req.body.qtyDelivered
+        order.orderItems.find(item => item._id == req.body._id).qtyOutstanding = req.body.qtyOutstanding
+
+        // if (order.status !== req.body.status) {
+        //     order.status = req.body.status
+        // }
 
         const updatedOrder = await order.save()
 

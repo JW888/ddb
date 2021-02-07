@@ -12,6 +12,7 @@ const CartScreen = ({ match, location, history }) => {
 
     const partId = match.params.id
     const qty = location.search ? Number(location.search.split('?')[1].split('=')[1]) : 1
+    const qtyOut = qty
     const dmReg = location.search ? location.search.split('?')[2].split('=')[1] : ""
     const tail = dmReg.slice(-7)
     const delLoc = location.search ? location.search.split('?')[3].split('=')[1] : ""
@@ -27,10 +28,10 @@ const CartScreen = ({ match, location, history }) => {
     useEffect(() => {
 
         if (partId) {
-            dispatch(addToCart(partId, qty, dmReg, tail, delLoc, trade, rdd))
+            dispatch(addToCart(partId, qty, qtyOut, dmReg, tail, delLoc, trade, rdd))
         }
 
-    }, [dispatch, partId, qty, dmReg, tail, delLoc, trade, rdd])
+    }, [dispatch, partId, qty, qtyOut, dmReg, tail, delLoc, trade, rdd])
 
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
