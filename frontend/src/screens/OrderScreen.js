@@ -68,10 +68,7 @@ const OrderScreen = ({ match, history }) => {
         if (calcQtyOutstanding === 0) {
             order.status = "Full"
         }
-
-        // console.log(order)
-        // console.log(calcQtyOrdered())
-        // console.log(calcQtyOutstanding())
+        
         dispatch(deliverOrder(order, item))
     }
 
