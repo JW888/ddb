@@ -1,6 +1,11 @@
 import path from 'path'
 import express from 'express'
 import morgan from 'morgan'
+import mongoSanitize from 'express-mongo-sanitize'
+import helmet from 'helmet'
+import xss from 'xss-clean'
+import rateLimit from 'express-rate-limit'
+import hpp from 'hpp'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
@@ -21,6 +26,18 @@ if (process.env.NODE_ENV === 'development'){
 }
 
 app.use(express.json())
+
+app.use(mongoSanitize())
+app.use(helmet())
+app.use(xss())
+app.use(hpp())
+
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, 
+  max:100
+})
+
+app.use(limiter)
 
 app.use('/api/parts', partsRoutes)
 app.use('/api/users', userRoutes)
