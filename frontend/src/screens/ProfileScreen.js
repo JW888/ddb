@@ -6,6 +6,7 @@ import Loader from '../components/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { listMyOrders } from '../actions/orderActions'
+import Meta from '../components/Meta'
 
 
 const ProfileScreen = ({ location, history }) => {
@@ -60,6 +61,8 @@ const ProfileScreen = ({ location, history }) => {
     }  
 
     return (
+        <>
+        <Meta title={`Demands Database | ${name}`}></Meta>
         <Row>
             <Col md={3}>
                 <h2>User Profile</h2>
@@ -134,7 +137,8 @@ const ProfileScreen = ({ location, history }) => {
           </Table>
         )}
       </Col>
-        </Row>
+      </Row>
+    </>
     )
 }
 

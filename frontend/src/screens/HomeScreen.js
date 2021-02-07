@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import { listParts } from '../actions/partActions'
+import Meta from '../components/Meta'
 
 const HomeScreen = ( {match} ) => {
 
@@ -29,6 +30,7 @@ const HomeScreen = ( {match} ) => {
 
   return (
     <>
+    <Meta title={"Demands Database | Home"}></Meta>
       <h1>Search Parts</h1>
       {loading ? (<Loader>Loading...</Loader>) : error ? (<Message variant='danger'>{error}</Message>) : (
         <>

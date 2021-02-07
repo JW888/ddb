@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listMyOrders } from '../actions/orderActions'
-// import {ORDER_DETAILS_SUCCESS} from '../constants/orderConstants'
+import Meta from '../components/Meta'
 
 const MyOrdersScreen = () => {
 
@@ -28,7 +28,8 @@ const MyOrdersScreen = () => {
 
     return (
         <>
-            <h1>Orders</h1>
+            <Meta title={"Demands Database | Demands"}></Meta>
+            <h1>Demands</h1>
             {loading ? (<Loader>Loading...</Loader>) : error ? (<Message variant='danger'>{error}</Message>) : (
             <Table className="table-dark table-hover" size='sm' bordered="true" responsive>
                 <thead>

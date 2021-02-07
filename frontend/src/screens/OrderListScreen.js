@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listOrders } from '../actions/orderActions'
+import Meta from '../components/Meta'
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch()
@@ -30,7 +31,8 @@ const OrderListScreen = ({ history }) => {
 
   return (
     <>
-      <h1>Orders</h1>
+      <Meta title={"Demands Database | Admin | Demands"}></Meta>
+      <h1>All Demands</h1>
       {loading ? (
         <Loader />
       ) : error ? (

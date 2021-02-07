@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { register } from '../actions/userActions'
+import Meta from '../components/Meta'
 
 const RegisterScreen = ({ location, history }) => {
 
@@ -51,6 +52,7 @@ const RegisterScreen = ({ location, history }) => {
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
             {loading && <Loader/>}
+            <Meta title={'Demands Database | Register'}></Meta>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='name'>
                     <Form.Label>

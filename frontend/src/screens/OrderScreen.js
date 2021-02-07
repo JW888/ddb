@@ -4,6 +4,7 @@ import { Row, Col, ListGroup, Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import {
     getOrderDetails,
     deliverOrder,
@@ -94,7 +95,12 @@ const OrderScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
     ) : (   
             <>
-                <>
+                <>  
+                    {userInfo && userInfo.isAdmin ? (
+                        <Meta title={"Demands Database | Admin | Demand"}></Meta>
+                    ):(
+                        <Meta title={"Demands Database | Demand "}></Meta>
+                    )}
                     <Link className='btn btn-outline-primary my-3' to='/profile'>
                         To Demands
                     </Link>

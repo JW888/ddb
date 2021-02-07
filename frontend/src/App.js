@@ -18,8 +18,6 @@ import PartCreateScreen from './screens/PartCreateScreen'
 import PartEditScreen from './screens/PartEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 
-
-
 const App = () => {
   return (
     <Router>

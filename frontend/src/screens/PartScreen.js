@@ -7,6 +7,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listPartDetails } from '../actions/partActions'
 import DatePicker from "react-datepicker"
+import Meta from '../components/Meta'
 
 const PartScreen = ({ history, match }) => {
 
@@ -48,6 +49,7 @@ const PartScreen = ({ history, match }) => {
       </Link>
       {loading ? (<Loader>Loading...</Loader>) : error ? (<Message variant='danger'>{error}</Message>) : (
         <>
+          <Meta title={`Demands Database | ${part.item_name}`}></Meta>
           <Row>
             <Col md={4}>
               <Image src={part.image} alt={part.item_name} fluid />

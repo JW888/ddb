@@ -5,9 +5,11 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import FormContainer from '../components/FormContainer'
 import { listParts, createPart } from '../actions/partActions'
 import { PART_CREATE_RESET } from '../constants/partConstants'
+
 
 const PartEditScreen = ({ match, history }) => {
 
@@ -93,6 +95,7 @@ const PartEditScreen = ({ match, history }) => {
 
   return (
     <>
+      <Meta title={'Demands Database | Admin | Create Part'}></Meta>
       <Link to='/admin/partlist' className='btn btn-outline-primary my-3'>
         Go Back
       </Link>

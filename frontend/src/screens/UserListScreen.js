@@ -4,6 +4,7 @@ import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import { listUsers, deleteUser } from '../actions/userActions'
 
 const UserListScreen = ({ history }) => {
@@ -38,12 +39,15 @@ const UserListScreen = ({ history }) => {
 
   return (
     <>
+    
       <h1>Users</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
+        <>
+        <Meta title={'Demands Database | Admin | User List'}></Meta>
         <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
@@ -82,6 +86,7 @@ const UserListScreen = ({ history }) => {
             ))}
           </tbody>
         </Table>
+        </>
       )}
     </>
   )

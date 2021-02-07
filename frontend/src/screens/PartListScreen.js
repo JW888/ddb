@@ -3,6 +3,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import Paginate from '../components/Paginate'
 import {
   listParts,
@@ -60,6 +61,7 @@ const PartListScreen = ({ history, match }) => {
 
   return (
     <>
+      <Meta title={'Demands Database | Admin | Part List'}></Meta>
       <Row className='align-items-center'>
         <Col>
           <h1>Parts</h1>

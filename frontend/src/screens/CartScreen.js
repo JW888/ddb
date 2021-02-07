@@ -5,6 +5,7 @@ import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 import { createOrder } from '../actions/orderActions'
+import Meta from '../components/Meta'
 
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -68,6 +69,7 @@ const CartScreen = ({ match, location, history }) => {
 
     return (
         <>
+            <Meta title={"Demands Database | Cart"}></Meta>
             <Row>
                 <Col>
                     <h1>Demands Cart</h1>

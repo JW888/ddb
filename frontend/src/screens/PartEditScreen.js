@@ -5,6 +5,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import FormContainer from '../components/FormContainer'
 import { listPartDetails, updatePart } from '../actions/partActions'
 import { PART_UPDATE_RESET } from '../constants/partConstants'
@@ -88,6 +89,7 @@ const PartEditScreen = ({ match, history }) => {
 
   return (
     <>
+      <Meta title={'Demands Database | Admin | Edit Part'}></Meta>
       <Link to='/admin/partlist' className='btn btn-outline-primary my-3'>
         Go Back
       </Link>
