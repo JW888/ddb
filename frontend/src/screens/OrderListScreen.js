@@ -24,7 +24,6 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo])
 
-
   const handleRowClick = (id) => {
     history.push(`/orders/${id}`)
   }  
