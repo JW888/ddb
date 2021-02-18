@@ -14,9 +14,7 @@ import { PART_LIST_REQUEST,
     PART_UPDATE_REQUEST,
     PART_UPDATE_SUCCESS,
     PART_UPDATE_FAIL,
-    PART_UPDATE_RESET,
-
-
+    PART_UPDATE_RESET
 } from '../constants/partConstants'
 
 
